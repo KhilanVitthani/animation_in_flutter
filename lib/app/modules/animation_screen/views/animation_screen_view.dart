@@ -34,10 +34,24 @@ class AnimationScreenView extends GetWidget<AnimationScreenController> {
       {required int index, required AnimationScreenController controller}) {
     return Obx(() {
       return Positioned(
-        left: (index <= 14) ? 0 : null,
-        right: (index > 14) ? 0 : null,
-        bottom: (index <= 14) ? (200 + (index * 30)) : null,
-        top: (index > 14) ? -100 + (index * 30) : null,
+        left: (index <= 14)
+            ? 0
+            : (index == 15)
+                ? 50
+                : null,
+        right: (index > 14)
+            ? 0
+            : (index == 14)
+                ? 15
+                : (index == 13)
+                    ? 70
+                    : null,
+        bottom: (index <= 14)
+            ? (200 + (index * 30))
+            : (index == 13)
+                ? 200 + (index * 30)
+                : null,
+        top: (index > 14) ? -275 + (index * 30) : null,
         child: Container(
           height: 25,
           width: 25,

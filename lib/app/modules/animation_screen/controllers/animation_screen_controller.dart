@@ -13,7 +13,10 @@ class AnimationScreenController extends GetxController {
     List.generate(30, (index) {
       colorList.add(MyClass(color: Colors.transparent.obs));
     });
-    startTimer();
+    print(colorList.length);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      startTimer();
+    });
     super.onInit();
   }
 
@@ -21,32 +24,36 @@ class AnimationScreenController extends GetxController {
     timer = Timer.periodic(Duration(milliseconds: 500), (timer) {
       tickValue.value = timer.tick;
 
-      if (tickValue.value == 1) {
-        colorList[0].color.value = Colors.red;
-      }
-      if (tickValue.value == 2) {
-        colorList[0].color.value = Colors.green;
-        colorList[1].color.value = Colors.red;
-      }
-      if (tickValue.value == 3) {
-        colorList[0].color.value = Colors.amber;
-        colorList[1].color.value = Colors.green;
-        colorList[2].color.value = Colors.red;
-      }
-      if (isLastCompleted.isTrue && tickValue.value == 1) {
-        colorList[colorList.length - 1].color.value = Colors.green;
-        colorList[colorList.length - 2].color.value = Colors.amber;
-        colorList[colorList.length - 3].color.value = Colors.transparent;
-      } else if (isLastCompleted.isTrue && tickValue.value == 2) {
-        colorList[colorList.length - 1].color.value = Colors.amber;
-        colorList[colorList.length - 2].color.value = Colors.transparent;
-      } else if (isLastCompleted.isTrue && tickValue.value == 3) {
-        colorList[colorList.length - 1].color.value = Colors.transparent;
-      } else {
-        colorList[tickValue.value - 4].color.value = Colors.transparent;
-        colorList[tickValue.value - 3].color.value = Colors.amber;
-        colorList[tickValue.value - 2].color.value = Colors.green;
-        colorList[tickValue.value - 1].color.value = Colors.red;
+      if (tickValue.value > 0) {
+        if (tickValue.value == 1) {
+          colorList[0].color.value = Colors.red;
+        }
+        if (tickValue.value == 2) {
+          colorList[0].color.value = Colors.green;
+          colorList[1].color.value = Colors.red;
+        }
+        if (tickValue.value == 3) {
+          colorList[0].color.value = Colors.amber;
+          colorList[1].color.value = Colors.green;
+          colorList[2].color.value = Colors.red;
+        }
+        if (isLastCompleted.isTrue && tickValue.value == 1) {
+          colorList[colorList.length - 1].color.value = Colors.green;
+          colorList[colorList.length - 2].color.value = Colors.amber;
+          colorList[colorList.length - 3].color.value = Colors.transparent;
+        } else if (isLastCompleted.isTrue && tickValue.value == 2) {
+          colorList[colorList.length - 1].color.value = Colors.amber;
+          colorList[colorList.length - 2].color.value = Colors.transparent;
+        } else if (isLastCompleted.isTrue && tickValue.value == 3) {
+          colorList[colorList.length - 1].color.value = Colors.transparent;
+        }
+
+        if (tickValue.value > 3) {
+          colorList[tickValue.value - 4].color.value = Colors.transparent;
+          colorList[tickValue.value - 3].color.value = Colors.amber;
+          colorList[tickValue.value - 2].color.value = Colors.green;
+          colorList[tickValue.value - 1].color.value = Colors.red;
+        }
       }
 
       if (tickValue.value == colorList.length) {
@@ -64,6 +71,7 @@ class AnimationScreenController extends GetxController {
 
   @override
   void onClose() {
+    timer!.cancel();
     super.onClose();
   }
 }
