@@ -22,8 +22,10 @@ class AnimationScreenView extends GetWidget<AnimationScreenController> {
                 alignment: Alignment.center,
                 children: List.generate(
                     controller.colorList.length,
-                    (index) =>
-                        getContainer(index: index, controller: controller)),
+                    (index) => getContainer(
+                        index: index,
+                        controller: controller,
+                        context: context)),
               ),
             ),
           );
@@ -31,26 +33,36 @@ class AnimationScreenView extends GetWidget<AnimationScreenController> {
   }
 
   getContainer(
-      {required int index, required AnimationScreenController controller}) {
+      {required int index,
+      required AnimationScreenController controller,
+      required BuildContext context}) {
     return Obx(() {
+      double height = MediaQuery.of(context).size.height;
+      double width = MediaQuery.of(context).size.width;
       return Positioned(
         left: (index <= 14)
             ? 0
             : (index == 15)
-                ? 50
-                : null,
+                ? 35
+                : (index == 16)
+                    ? 220
+                    : (index == 17)
+                        ? 280
+                        : (index == 18)
+                            ? 310
+                            : null,
         right: (index > 14)
             ? 0
             : (index == 14)
-                ? 15
+                ? 30
                 : (index == 13)
-                    ? 70
-                    : null,
-        bottom: (index <= 14)
-            ? (200 + (index * 30))
-            : (index == 13)
-                ? 200 + (index * 30)
-                : null,
+                    ? 220
+                    : (index == 12)
+                        ? 280
+                        : (index == 11)
+                            ? 310
+                            : null,
+        bottom: (index <= 14) ? (200 + (index * 30)) : null,
         top: (index > 14) ? -275 + (index * 30) : null,
         child: Container(
           height: 25,
@@ -61,10 +73,10 @@ class AnimationScreenView extends GetWidget<AnimationScreenController> {
             shape: BoxShape.circle,
             border: Border.all(color: Colors.white),
           ),
-          child: Text(
-            controller.tickValue.value.toString(),
-            style: TextStyle(color: Colors.white),
-          ),
+          // child: Text(
+          //   index.toString(),
+          //   style: TextStyle(color: Colors.white),
+          // ),
         ),
       );
     });
